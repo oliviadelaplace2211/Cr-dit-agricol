@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Banque Secure - Simulation</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #f4f6f9;
+}
+
+/* LOGIN */
+#loginPage {
+    text-align: center;
+    margin-top: 100px;
+}
+
+input, button {
+    padding: 12px;
+    margin: 8px;
+    width: 80%;
+}
+
+/* APP */
+#app {
+    display: none;
+}
+
+/* HEADER */
+.header {
+    background: #1a237e;
+    color: white;
+    padding: 15px;
+    text-align: center;
+}
+
+/* CARD */
+.card {
+    margin: 20px;
+    padding: 20px;
+    border-radius: 15px;
+    color: white;
+    background: linear-gradient(135deg, #3949ab, #1a237e);
+}
+
+/* SOLDE */
+.balance {
+    margin: 20px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+/* ACTIONS */
+.actions {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px;
+}
+
+/* HISTORIQUE */
+.history {
+    margin: 20px;
+}
+
+.history li {
+    background: white;
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+}
+
+/* NAVBAR */
+.navbar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: white;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    border-top: 1px solid #ccc;
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div id="loginPage">
+    <h2>Connexion sécurisée</h2>
+    <input type="text" id="user" placeholder="Identifiant"><br>
+    <input type="password" id="pass" placeholder="Mot de passe"><br>
+    <button onclick="login()">Se connecter</button>
+</div>
+
+<!-- APP -->
+<div id="app">
+
+<div class="header">
+    Banque Secure (SIMULATION)
+</div>
+
+<div class="card">
+    <div>BANQUE SECURE</div>
+    <div style="font-size:22px;margin:15px 0;">**** **** **** 821</div>
+    <div>OLIVIA DELAPLACE</div>
+</div>
+
+<div class="balance" id="solde">
+    12000 €
+</div>
+
+<div style="margin:20px;">
+    🕒 <span id="dateHeure"></span><br>
+    👨‍⚖️ Notaire : Patrick Leblond
+</div>
+
+<div class="actions">
+    <button onclick="virement()">Virement</button>
+</div>
+
+<div class="history">
+    <h3>Historique</h3>
+    <ul id="historique"></ul>
+</div>
+
+<div class="navbar">
+    <div>🏠</div>
+    <div>💳</div>
+    <div>📊</div>
+    <div>⚙️</div>
+</div>
+
+</div>
+
+<script>
+let solde = 12000;
+
+/* LOGIN */
+function login() {
+    let user = document.getElementById("user").value;
+    let pass = document.getElementById("pass").value;
+
+    if(user === "olivia" && pass === "1234") {
+        document.getElementById("loginPage").style.display = "none";
+        document.getElementById("app").style.display = "block";
+    } else {
+        alert("Identifiants incorrects");
+    }
+}
+
+/* DATE HEURE */
+function updateTime() {
+    document.getElementById("dateHeure").innerText =
+        new Date().toLocaleString();
+}
+setInterval(updateTime, 1000);
+updateTime();
+
+/* VIREMENT */
+function virement() {
+    let montant = prompt("Montant du virement ?");
+    montant = parseFloat(montant);
+
+    if (!montant || montant <= 0 || montant > solde) {
+        alert("Montant invalide");
+        return;
+    }
+
+    let destinataire = prompt("RIB destinataire ?");
+
+    solde -= montant;
+    document.getElementById("solde").innerText = solde + " €";
+
+    let li = document.createElement("li");
+    li.innerText = "SIMULATION : -" + montant + " € vers " + destinataire + " le " + new Date().toLocaleString();
+
+    document.getElementById("historique").appendChild(li);
+
+    alert("Virement simulé effectué ✅");
+}
+</script>
+
+</body>
+</html>
